@@ -1,0 +1,25 @@
+.menu-nav{
+    background-color: white;
+    width: 250px;
+    color: RGB(9, 46, 52);
+    font-weight: 500;
+    font-size: 20px;
+    border: solid 5px white;
+    border-radius: 5px;
+    margin: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    float: right;
+    
+    flex-grow: 1;
+}
+.menu-nav:hover{
+    background-color: RGB(9, 46, 52);
+    color: white;
+    border: solid 5px white;
+    border-radius: 5px;
+    cursor:pointer;
+}
+.mode-nav{
+    width: 2em;
+}

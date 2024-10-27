@@ -1,0 +1,8 @@
+.ModeSelect{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-self: center; 
+    align-items: center;
+    margin: auto;
+}

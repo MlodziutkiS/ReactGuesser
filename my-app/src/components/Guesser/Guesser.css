@@ -1,0 +1,7 @@
+.Selector{
+    display:flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-self: center; 
+    align-items: center;
+}

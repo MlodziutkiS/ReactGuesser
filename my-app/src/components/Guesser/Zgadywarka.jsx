@@ -1,0 +1,57 @@
+import React from 'react';
+import { useGuesserContext } from './GuesserContextProvider';
+import { useState } from 'react';
+function Zgadywarka(){
+    let tytulY=[
+        'Ford Fusion 1.4 disel Rok 2005',//4800
+        'Mercedes-Benz A160 1.6 B 102KM 2000 R KLIMA',//3900
+        'Sprzedam Toyotę Yaris 1.3',//9600
+        'Jaguar Type S-Type 3.0 okazja',//5900
+        'Volkswagen Golv IV 2000 1.9 TDI 5D 110km -RATY-',//4500
+        'Volkswagen polo 1.0',//1999
+        'Peugeot 406 coupe 3.0 V6 (Do napraw wizualnych)',//8999
+        'Mercedes W124 kombi 2.5D Klima',//4999
+        'Ford Escort 1.6 + LPG 16V kabriolet z 1993 - Michael Schumacher',//5800
+        'Seat Leon 1.6 + gaz',//5400
+        'Mercedes CLK cabrio 230 Kompressor',//9500
+        'Sprzedam skodę felicje',//2100
+        'Audi 80 do renowacji 1979 rok możliwa zamiana',//7000
+        'Sprzedam Audi a4b5 2.4v6',//9999
+        'Fiat 126p 1997r dobry stan',//10 000
+        'Ford Focus MK1 rok 1999',//2000
+        'Skoda Felicia 1.3 Mpi',//3600
+        'Peugeot 306 1.4 75KM Benzyna Bez rdzy',//2200
+        'VW golf 3 syncro 4x4 2.0 benz 115KM 5 drzwi klima',//8200
+        'Seat Ibiza 96 rocznik',//2750
+
+        ];
+        let ceny=[4800,3900,9600,5900,4500,1999,8999,4999,5800,5400,9500,2100,7000,9999,10000,2000,3600,2200,8200,2750];
+        let marginesbledu = 1000;
+    const { carId, setCarId} = useGuesserContext();
+    const [inputValue, setInputValue] = useState('');
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value); // Update the state with the input's current value
+      };
+    function handleClick(e){
+        console.log('Input Value:', inputValue);
+        if(inputValue==ceny[carId]){
+            console.log("zabieraj tego szrota")
+            localStorage.setItem("points",parseInt(localStorage.getItem("points"))+1)
+        }else{
+            console.log(inputValue<ceny[carId]?"co tak malo panie":"ale zes sie dal na handlarzyka")
+        }
+        e.preventDefault();
+    }
+    return (
+        <div>
+            <p id="tytul">{tytulY[carId]}</p>
+                    <input 
+                type="number" 
+                value={inputValue} 
+                onChange={handleInputChange} 
+            />
+            <button onClick={handleClick}>Kup teraz</button>
+        </div>
+    );
+}
+export default Zgadywarka

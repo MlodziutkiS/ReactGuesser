@@ -1,0 +1,19 @@
+@import url("./geomanist/font/stylesheet.css");
+
+* {
+    font-family: "geomanist";
+    margin: 0px;
+}
+
+.banner {
+  background-color: RGB(9, 46, 52);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.stopka {
+  color:RGB(9, 46, 52);
+}
+.main {
+  text-align: center;
+}
