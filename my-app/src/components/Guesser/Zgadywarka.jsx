@@ -49,7 +49,7 @@ function Zgadywarka(){
 
 
     return (
-        <div className='Zadywarka'>
+        <div className='Zadywarka' style={{width:'30%'}}>
             <p id="tytul">{cars[carId].title}</p>
                     <input 
                 type="number" 
@@ -57,6 +57,7 @@ function Zgadywarka(){
                 onChange={handleInputChange} 
             />
             <button onClick={handleClick}>Kup teraz</button>
+            <p style={{ whiteSpace: 'pre-line' }}>{cars[carId].desc}</p>
         </div>
     );
 }

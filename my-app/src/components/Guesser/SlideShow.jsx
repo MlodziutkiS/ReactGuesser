@@ -4,6 +4,7 @@ import { useGuesserContext } from './GuesserContextProvider';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import cars from '../../database/cars';
+import './SlideShow.css'
 
 const SlideShow = () => {
   const { carId } = useGuesserContext();  // Get carId from context
@@ -27,16 +28,16 @@ const SlideShow = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
   };
 
   return (
-    <div className="car-image-slideshow" style={{width:'1000px', height:'700px', margin:'auto', background:'grey', paddingInline: "30px", overflow:"hidden"}}>
+    <div className="car-image-slideshow" style={{width:'1000px', height:'40em', margin:'auto', background:'grey', paddingInline: "30px", overflow:"hidden", justifyContent:"center"}}>
       {images.length > 0 ? (
         <Slider {...settings}>
           {images.map((img, index) => (
-              <img src={process.env.PUBLIC_URL + img} alt={`Car ${carId} - Slide ${index + 1}`} style={{ width: 'auto', height: '100%' , objectFit: 'cover',   margin: 'auto'}} />
+              <img src={process.env.PUBLIC_URL + img} alt={`Car ${carId} - Slide ${index + 1}`} className='imagetoscale' />
           ))}
         </Slider>
       ) : (

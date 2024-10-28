@@ -3,7 +3,7 @@ function Footer(){
     return(
         <div className="footer">
             <hr/>
-            Project by: dynamo &amp; roger | wersja 1.3 CDTi
+            Project by: dynamo &amp; roger &amp; mlodziutki | wersja 2.0 tdi
         </div>
     );
 }

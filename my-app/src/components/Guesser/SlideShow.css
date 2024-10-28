@@ -1,0 +1,5 @@
+.imgagetoscale{
+height: '100%' ;
+margin: 'auto';
+object-fit: contain;
+}
