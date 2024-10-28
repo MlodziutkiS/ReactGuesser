@@ -7,7 +7,6 @@ import Button from './components/Button/Button';
 import Home from './components/Home/Home';
 import Footer from './components/Footer/Footer';
 import Guesser  from './components/Guesser/Guesser';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

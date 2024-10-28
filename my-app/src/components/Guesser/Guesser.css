@@ -5,3 +5,10 @@
     align-self: center; 
     align-items: center;
 }
+.Game{
+    display: flex;
+    flex-direction: row;
+}
+.Zgadywarka{
+    background-color: aquamarine;
+}
