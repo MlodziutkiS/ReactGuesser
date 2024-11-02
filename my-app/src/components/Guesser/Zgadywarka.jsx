@@ -49,7 +49,7 @@ function Zgadywarka(){
             case 2:
                 if(inputValue >= cars[carId].price){
                     console.log("zabieraj tego szrota")
-                    addPoint()
+                    //addPoint()
                     addScore(inputValue-cars[carId].price)
                     //console.log(inputValue-cars[carId].price)
                 }else{
