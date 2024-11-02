@@ -19,11 +19,14 @@ export const GuesserProvider = ({ children }) => {
   function addPoint(){
     setPoints(prev=>parseInt(prev+1));
   }
+  function addScore(n){
+    setPoints(prev=>parseInt(prev+parseInt(n)));
+  }
 
   useEffect(()=>{localStorage.setItem("points",points)},[points])
 
   return (
-    <GuesserContext.Provider value={{ carId, changeCar, currentMode, setCurrentMode , points, addPoint}}>
+    <GuesserContext.Provider value={{ carId, changeCar, currentMode, setCurrentMode , points, addPoint, addScore}}>
       {children}
     </GuesserContext.Provider>
   );

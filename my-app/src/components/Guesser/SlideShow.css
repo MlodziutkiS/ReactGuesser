@@ -1,5 +1,31 @@
-.imgagetoscale{
-height: '100%' ;
-margin: 'auto';
-object-fit: contain;
+
+.slideshow-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    width: 100%;
+}
+
+.slideshow-image {
+    width: 50em;
+    height: 600px;
+    object-fit: cover;
+}
+
+.slideshow-buttons {
+    position: absolute;
+    bottom: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.slideshow-buttons button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }

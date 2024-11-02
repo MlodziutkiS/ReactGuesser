@@ -8,4 +8,33 @@
 .Game{
     display: flex;
     flex-direction: row;
+    width: 100%;
+}
+.Zadywarka{
+    padding: 3em;
+    margin: 1em;
+    background-color: RGB(242, 244, 245);
+}
+.BuyButton{
+    padding: 2px;
+    width: 10em;
+    height: 2em;
+    background-color: RGB(9, 46, 52);
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    border: solid 5px white;
+    border-radius: 7px;
+}
+.BuyButton:hover{
+    background-color: white;
+    color: RGB(9, 46, 52);
+    border: solid 5px RGB(9, 46, 52);
+    border-radius: 5px;
+    cursor:pointer;
+}
+.BuyField{
+    padding: 2px;
+    width: 14em;
+    height: 2em;
 }

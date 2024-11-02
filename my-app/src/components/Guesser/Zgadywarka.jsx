@@ -29,7 +29,7 @@ function Zgadywarka(){
     //     ];
     //     let ceny=[4800,3900,9600,5900,4500,1999,8999,4999,5800,5400,9500,2100,7000,9999,10000,2000,3600,2200,8200,2750];
     //     let marginesbledu = 1000;
-    const { carId, changeCar, addPoint} = useGuesserContext();
+    const { carId, changeCar, addPoint, currentMode, addScore} = useGuesserContext();
     const [inputValue, setInputValue] = useState(0);
 
     const handleInputChange = (event) => {
@@ -37,28 +37,47 @@ function Zgadywarka(){
       };
 
     function handleClick() {
-        if(inputValue === cars[carId].price){
-            console.log("zabieraj tego szrota")
-            addPoint()
-        }else{
-            console.log(inputValue < cars[carId].price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
+        switch(currentMode){
+            case 1:
+                if(inputValue === cars[carId].price){
+                    console.log("zabieraj tego szrota")
+                    addPoint()
+                }else{
+                    console.log(inputValue < cars[carId].price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
+                }
+            break;
+            case 2:
+                if(inputValue >= cars[carId].price){
+                    console.log("zabieraj tego szrota")
+                    addPoint()
+                    addScore(inputValue-cars[carId].price)
+                    //console.log(inputValue-cars[carId].price)
+                }else{
+                    console.log(inputValue < cars[carId].price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
+                }
+            break;
+            case 3:
+            break;
+            default:
+                console.log("no bueno mode set is bad plis fiks")
+            break;
         }
         changeCar()
     }
 
 
-
     return (
         <div className='Zadywarka' style={{width:'30%'}}>
-            <p id="tytul">{cars[carId].title}</p>
+            <h1 id="tytul">{cars[carId].title}</h1>
                     <input 
                 type="number" 
                 value={inputValue} 
                 onChange={handleInputChange} 
+                className='BuyField'
             />
-            <button onClick={handleClick}>Kup teraz</button>
-            <p style={{ whiteSpace: 'pre-line' }}>{cars[carId].desc}</p>
+            <button className='BuyButton'onClick={handleClick}>Kup teraz</button>
+            <p style={{ whiteSpace: 'pre-line', overflow: 'auto', height:'25em'}}>{cars[carId].desc}</p>
         </div>
     );
 }
-export default Zgadywarka
+export default Zgadywarka;
