@@ -1,28 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Button from './components/Button/Button';
-import Home from './components/Home/Home';
-import Footer from './components/Footer/Footer';
-import Guesser  from './components/Guesser/Guesser';
+import Game from './components/Pages/Game';
+import createBrowser  
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div className='banner'>
-    <Home/>
-    <Button text="muza" style="olx"/>
-    <Button text="Kinematografia" style="olx"/>
-    <Button text="Info" style="olx"/>
-    <Button text="Przegladaj gruzy" style="olx"/>
-    </div>
-    <div className='menu'>
-    <Guesser/>
-    </div>
-    <div className='stopka'>
-    <Footer/>
-    </div>
+   <Game/>
   </React.StrictMode>
 );
 

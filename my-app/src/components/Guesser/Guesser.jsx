@@ -5,7 +5,7 @@ import { GuesserProvider } from './GuesserContextProvider.jsx';
 import Zgadywarka from './Zgadywarka.jsx';
 function Guesser(){
     return(
-    <div>
+    <div className='menu'>
         <GuesserProvider>
             <section className="Selector">
                 <Mode/>
