@@ -18,9 +18,9 @@ const Mode = () => {
   }
   return (
     <div className='ModeSelect'>
-      <button className='menu-nav' style={{width:"5em"}} onClick={() => currentMode==1? setCurrentMode(maxMode):setCurrentMode(currentMode-1)}>&lt;</button>
+      <button className='mode-nav' style={{width:"5em"}} onClick={() => currentMode==1? setCurrentMode(maxMode):setCurrentMode(currentMode-1)}>&lt;</button>
       <p>Car ID: {carId}<br/>Current Mode: {ModeLookup()} </p>
-      <button className='menu-nav'  style={{width:"5em"}} onClick={() => currentMode==maxMode? setCurrentMode(1):setCurrentMode(currentMode+1)}>&gt;</button>
+      <button className='mode-nav'  style={{width:"5em"}} onClick={() => currentMode==maxMode? setCurrentMode(1):setCurrentMode(currentMode+1)}>&gt;</button>
     </div>
   );
 };

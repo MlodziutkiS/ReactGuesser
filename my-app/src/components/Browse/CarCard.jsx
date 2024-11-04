@@ -9,7 +9,7 @@ function CarCard({data}){
             <img className="previewImage" src={photos[0]} alt={title.substring(0,title.indexOf(" ",title.indexOf(" ")+1))}></img>
             <div className='params'>
                 <p>{title.length>=49? title.substr(0,50)+"...":title}</p>
-                <b>Cena: {price}zł</b>
+                <p style={{fontWeight:"500"}}>{price} zł</p>
             </div>
             
         </aside>

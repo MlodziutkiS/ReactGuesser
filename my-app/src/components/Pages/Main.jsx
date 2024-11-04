@@ -7,7 +7,7 @@ import CarBrowser from '../Browse/CarBrowser';
 function Main(){
     const outlet = useOutlet()
     return (
-    <div>
+    <div style={{backgroundColor:"RGB(242, 244, 245)"}}>
         <Navi/>
             {outlet ?? <CarBrowser/>}
         <Footer/>

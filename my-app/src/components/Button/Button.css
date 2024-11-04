@@ -22,4 +22,13 @@
 }
 .mode-nav{
     width: 2em;
+    border: solid 5px RGB(9, 46, 52);
+    background-color: white;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 20px;
+}
+.mode-nav:hover{
+    background-color: RGB(19, 56, 62);
+    color: white;
 }
