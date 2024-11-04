@@ -1,15 +1,11 @@
 import React from 'react';
-import './index.css';
-import Footer from './components/Footer/Footer';
-import Info from './components/Info/Info'
-import Navi from './Navi';
+import '../../index.css';
+import Info from '../Info/Info'
 
 function Kontakt(){
     return (
     <div>
-        <Navi/>
         <Info/>
-        <Footer/>
     </div>
     );
 }
