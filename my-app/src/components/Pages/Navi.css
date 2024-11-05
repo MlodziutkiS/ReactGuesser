@@ -1,0 +1,8 @@
+.banner{
+    display: flex;
+    justify-content: space-between;
+}
+.naviButton{
+    display: flex;
+    flex-flow: row wrap;
+}
