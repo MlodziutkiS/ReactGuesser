@@ -1,0 +1,10 @@
+.videoBox{
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+    align-items: center;
+}
+.videoBox > button{
+    margin:1em;
+    padding: 1em;
+}
