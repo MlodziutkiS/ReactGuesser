@@ -1,7 +1,10 @@
 import React from 'react';
+import '@vidstack/react/player/styles/base.css';
 function MovieBox(){
     return(
-        <h2>MovieBox</h2>
+        <div>
+
+        </div>
     );
 }
-export default MovieBox;
+export default MovieBox; 
