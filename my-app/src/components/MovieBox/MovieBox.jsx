@@ -5,17 +5,18 @@ import { preload } from 'react-dom';
 function MovieBox(){
 
     const [vidId, setvidId]=useState(0);
-    const maxId=0;
-    const videos=[];
+    const [videos, setVideos]=useState([{link:"placeholder", desc:"Loading..."}]);
+    let maxId=0;
+    
     useEffect(()=>{
         fetch("/api/videos").then(
         response => response.json()
        ).then(
-        data=> videos
+        data=> setVideos(data)
        )
-        maxId = videos.length-1;
-    },[])
-
+        
+    },[vidId])
+    maxId = videos.length-1;
     //console.log(videos[vidId+1]);
     function handlePreload(){/*
          
@@ -28,17 +29,15 @@ function MovieBox(){
         }
         catch{
             //console.log("womp womp preload didnt preload something");
-            return;
-        
-	}*/}
+	}*/return;}
     return(
         <div className='videoBox'>
             <button onClick={() => vidId===0? setvidId(maxId):setvidId(vidId-1)}>&lt;</button>
             <video width="50%" height="auto" controls key={vidId} onCanPlay={handlePreload()}>
-                <source src={videos[vidId].link} type="video/mp4"/>
+                <source key={vidId} src={videos[vidId].link} type="video/mp4"/>
             Your browser does not support the video tag.<br/>description {videos[vidId].desc}
             </video>
-            <button onClick={() => vidId===maxId? setvidId(1):setvidId(vidId+1)}>&gt;</button>
+            <button onClick={() => vidId===maxId? setvidId(0):setvidId(vidId+1)}>&gt;</button>
         </div>
     );
 }
