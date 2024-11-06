@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MovieBox.css';
-import videos from '../../database/videos';
 import { preload } from 'react-dom';
 
 function MovieBox(){
+
     const [vidId, setvidId]=useState(0);
-    let maxId = videos.length-1;
+    const maxId=0;
+    const videos=[];
+    useEffect(()=>{
+        fetch("/api/videos").then(
+        response => response.json()
+       ).then(
+        data=> videos
+       )
+        maxId = videos.length-1;
+    },[])
+
     //console.log(videos[vidId+1]);
-    function handlePreload(){
-        /* 
+    function handlePreload(){/*
+         
         ## awaiting {as: "video"} to become a valid value
         ## look for /react-dom/cjs/react-dom-client.development.js changes
         try{
@@ -19,8 +29,8 @@ function MovieBox(){
         catch{
             //console.log("womp womp preload didnt preload something");
             return;
-        }*/
-	}
+        
+	}*/}
     return(
         <div className='videoBox'>
             <button onClick={() => vidId===0? setvidId(maxId):setvidId(vidId-1)}>&lt;</button>

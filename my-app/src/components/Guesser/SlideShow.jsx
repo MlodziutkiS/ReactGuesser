@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Slider from 'react-slick';
 import { useGuesserContext } from './GuesserContextProvider';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import cars from '../../database/cars';
 import './SlideShow.css';
 import TestSlideShow from './TestSlider';
 
@@ -11,14 +9,17 @@ const SlideShow = () => {
   const { carId } = useGuesserContext();  // Get carId from context
   //const imgCount=[0,9,8,5,7,5,8,8,8,8,5,8,7,8,8,7,6,5,7,8,8];
   const [images, setImages] = useState([]);
+  const car={};
 
   useEffect(() => {
     const loadImages = async () => {
-      // const imageArray = cars;
-      // for (let i = 0; i <= cars[carId].photos.length; i++) { // Assuming you have 5 images in each car's folder
-      //   imageArray.push(`/gruzy/auto${carId+1 }/image${i}.jpg`); // Adjust image paths/naming as needed
-      // }
-      setImages(cars[carId].photos);
+      const requestUrl="/api/cars/"+carId;
+      fetch(requestUrl).then(
+        response => response.json()
+       ).then(
+        data=> car
+       )
+      setImages(car.photos);
     };
     loadImages();
   }, [carId]);
@@ -49,7 +50,7 @@ const SlideShow = () => {
   */
  return(
   <div className="App">
-    <TestSlideShow images={cars[carId].photos} />
+    <TestSlideShow images={car.photos} />
   </div>
 );
 

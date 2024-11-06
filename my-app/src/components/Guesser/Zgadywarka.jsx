@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGuesserContext } from './GuesserContextProvider';
 import { useState } from 'react';
 import './Guesser.css';
-import cars from '../../database/cars';
 function Zgadywarka(){
     // let tytulY=[
     //     'Ford Fusion 1.4 disel Rok 2005',//4800
@@ -31,6 +30,18 @@ function Zgadywarka(){
     //     let marginesbledu = 1000;
     const { carId, changeCar, addPoint, currentMode, addScore} = useGuesserContext();
     const [inputValue, setInputValue] = useState(0);
+    const [cars, setCars]=useState([]);
+    useEffect(()=>{
+            const requestUrl="/api/cars/"+carId;
+            let carFetch;
+            fetch({requestUrl}).then(
+                response => response.json()
+               ).then(
+                data=> carFetch
+               ).then(
+                    setCars(prev=> [...prev+carFetch])
+               )
+    },[carId])
 
     const handleInputChange = (event) => {
         setInputValue(event.target.valueAsNumber); // Update the state with the input's current value
@@ -39,21 +50,21 @@ function Zgadywarka(){
     function handleClick() {
         switch(currentMode){
             case 1:
-                if(inputValue === cars[carId].price){
+                if(inputValue === cars.price){
                     console.log("zabieraj tego szrota")
                     addPoint()
                 }else{
-                    console.log(inputValue < cars[carId].price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
+                    console.log(inputValue < cars.price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
                 }
             break;
             case 2:
-                if(inputValue >= cars[carId].price){
+                if(inputValue >= cars.price){
                     console.log("zabieraj tego szrota")
                     //addPoint()
-                    addScore(inputValue-cars[carId].price)
+                    addScore(inputValue-cars.price)
                     //console.log(inputValue-cars[carId].price)
                 }else{
-                    console.log(inputValue < cars[carId].price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
+                    console.log(inputValue < cars.price ? "co tak malo panie":"ale zes sie dal na handlarzyka")
                 }
             break;
             case 3:
@@ -68,7 +79,7 @@ function Zgadywarka(){
 
     return (
         <div className='Zadywarka' style={{width:'30%'}}>
-            <h1 id="tytul">{cars[carId].title}</h1>
+            <h1 id="tytul">{cars.title}</h1>
                     <input 
                 type="number" 
                 value={inputValue} 
@@ -76,7 +87,7 @@ function Zgadywarka(){
                 className='BuyField'
             />
             <button className='BuyButton'onClick={handleClick}>Kup teraz</button>
-            <p style={{ whiteSpace: 'pre-line', overflow: 'auto', height:'25em'}}>{cars[carId].desc}</p>
+            <p style={{ whiteSpace: 'pre-line', overflow: 'auto', height:'25em'}}>{cars.desc}</p>
         </div>
     );
 }
