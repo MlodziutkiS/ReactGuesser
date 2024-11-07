@@ -8,29 +8,42 @@ function CarBrowser(){
         margin:"1em"
     }
     const [cars, setCars]=useState([]);
-    const totalCars=0;
+    const [totalCars, setTotalCars]=useState(null);
+    const [request, setRequest]=useState("/api/cars/1?short");
     useEffect(()=>{
        fetch("/api/statistical").then(
-        response => response.json()
-       ).then(
-        data=> totalCars
-       )
-       for (let i = 0; i < totalCars; i++){
-        const requestUrl="/api/cars/"+i+"?short";
-        let carFetch;
-        fetch({requestUrl}).then(
             response => response.json()
-           ).then(
-            data=> carFetch
-           ).then(
-                setCars(prev=> [...prev+carFetch])
-           )
-
-       }
-    },[])
+       ).then(
+            data=> setTotalCars(data)
+       ).finally(()=> {
+            for (let i = 0; i < totalCars; i++){
+                fetch(request).then(
+                    response => response.json()
+                ).then(
+                    data=> {
+                        setCars([...cars,{data}])
+                        console.log(cars+";"+typeof(cars));
+                        setRequest("/api/cars/"+parseInt(i)+1+"?short");
+                    }
+                )
+            }
+       })
+       /*
+       */
+    },[request])
+    /*
+    useEffect(()=>{
+        let i=0;
+        let requestUrl="/api/cars/"+i+"?short";
+        fetch(requestUrl).then(response => response.json
+        ).then(data => {
+            setCars([...cars+data])
+        })
+    },totalCars)
+    */ 
     return(
         <div>
-            <p style={style}>Znaleźliśmy ponad {cars.length} ogłoszeń</p>
+            <p style={style}>Znaleźliśmy ponad {totalCars} ogłoszeń</p>
             {cars.map((car)=> <CarCard key={car.id} data={car}/>)}
         </div>
     );

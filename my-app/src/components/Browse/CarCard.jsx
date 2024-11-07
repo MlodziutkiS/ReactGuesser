@@ -2,11 +2,11 @@ import './CarCard.css'
 import React from 'react'
 function CarCard({data}){
 
-    const {id, title, photos, desc, price} = data
+    const {id=-1, title="Loading...", photos="/guesser.png", price=0} = data
 
     return(
         <aside className='wholeCard'>
-            <img className="previewImage" src={photos[0]} alt={title.substring(0,title.indexOf(" ",title.indexOf(" ")+1))}></img>
+            <img className="previewImage" key={id} src={photos[0]}></img>
             <div className='params'>
                 <p>{title.length>=49? title.substr(0,50)+"...":title}</p>
                 <p style={{fontWeight:"500"}}>{price} zł</p>
