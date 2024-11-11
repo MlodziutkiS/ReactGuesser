@@ -5,21 +5,25 @@ import videos from './database/videos.js';
 
 const app = express()
 
+app.get("/api/cars/", (req,res) =>{
+    const short = req.query.short !== undefined;
+    let output;
+    if(short){
+        output= cars.map(({desc,photos, ...rest})=> ({
+        ...rest,
+        photos: photos?[photos[0]]:[]
+    }));
+    }else{
+        output=cars;
+    }
+    
+    res.json(output);
+})
+
 app.get("/api/cars/:id", (req,res) =>{
     const carIn = parseInt(req.params.id);
     if(carIn >=0 && carIn<cars.length){
-        const short = req.query.short !== undefined;
-        if(short){
-            res.json({
-                id: cars[carIn].id,
-                title: cars[carIn].title,
-                price: cars[carIn].price,
-                photos: cars[carIn].photos.at(0)
-            });
-        }else{
             res.json(cars[carIn]);
-        }
-        
     }else{
         res.status(404).json({ error: 'Car not found' , carIn});
     }

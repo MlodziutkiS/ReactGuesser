@@ -31,17 +31,22 @@ function Zgadywarka(){
     const { carId, changeCar, addPoint, currentMode, addScore} = useGuesserContext();
     const [inputValue, setInputValue] = useState(0);
     const [cars, setCars]=useState([]);
+    const [doneFetching, setDoneFetching]= useState(false);
     useEffect(()=>{
             const requestUrl="/api/cars/"+carId;
             let carFetch;
-            fetch({requestUrl}).then(
+            fetch(requestUrl).then(
                 response => response.json()
                ).then(
                 data=> carFetch
                ).then(
-                    setCars(prev=> [...prev+carFetch])
-               )
+                    setCars(carFetch)
+               ).finally()
     },[carId])
+    
+    if(!doneFetching){
+        return <p>Loading...</p>;
+       }
 
     const handleInputChange = (event) => {
         setInputValue(event.target.valueAsNumber); // Update the state with the input's current value

@@ -9,6 +9,7 @@ const SlideShow = () => {
   const { carId } = useGuesserContext();  // Get carId from context
   //const imgCount=[0,9,8,5,7,5,8,8,8,8,5,8,7,8,8,7,6,5,7,8,8];
   const [images, setImages] = useState([]);
+  const [doneFetching, setDoneFetching]= useState(false);
   const car={};
 
   useEffect(() => {
@@ -18,8 +19,11 @@ const SlideShow = () => {
         response => response.json()
        ).then(
         data=> car
+       ).then(
+        setImages(car.photos)
+       ).finally(
+        setDoneFetching(true)
        )
-      setImages(car.photos);
     };
     loadImages();
   }, [carId]);
@@ -48,6 +52,9 @@ const SlideShow = () => {
     </div>
   );
   */
+  if(!doneFetching){
+    return <p>Loading...</p>;
+  }
  return(
   <div className="App">
     <TestSlideShow images={car.photos} />
