@@ -11,16 +11,27 @@ export const GuesserProvider = ({ children }) => {
     fetch("/api/statistical").then(
       response => response.json()
     ).then(
-      data=> totalCars
+      data => totalCars
     )
   },[])
-
   // Initialize the context values with useState hooks
   const [carId, setCarId] = useState(Math.floor(Math.random() * totalCars));        // Default to `null` or a specific ID if needed
   const [currentMode, setCurrentMode] = useState(1); // Initialize currentMode, e.g., 'default'
   const [points, setPoints]= useState(Number(localStorage.getItem("points")) ?? 0)
   const [count, setCount]=useState(1);
+  const [carData, setCarData]=useState(undefined);
+  const [dataReady, setDataReady]=useState(false);
 
+  useEffect(()=>{
+    let url="/api/cars/"+carId
+    fetch(url).then(
+      response => response.json()
+    ).then(
+      data => setCarData(data)
+    ).finally(
+      setDataReady(true)
+    )
+  },[])
   function changeCar ()  {
     const newId = Math.floor(Math.random() * totalCars)
       setCarId((prev) =>  prev === newId ? newId + 1 : newId)
@@ -48,7 +59,7 @@ export const GuesserProvider = ({ children }) => {
   useEffect(()=>{localStorage.setItem("points",points)},[points])
 
   return (
-    <GuesserContext.Provider value={{ carId, changeCar, currentMode, setCurrentMode , points, addPoint, addScore}}>
+    <GuesserContext.Provider value={{ dataReady, carData, changeCar, currentMode, setCurrentMode , points, addPoint, addScore}}>
       {children}
     </GuesserContext.Provider>
   );

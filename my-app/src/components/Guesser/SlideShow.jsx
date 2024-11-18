@@ -6,7 +6,7 @@ import './SlideShow.css';
 import TestSlideShow from './TestSlider';
 
 const SlideShow = () => {
-  const { carId } = useGuesserContext();  // Get carId from context
+  const { carId , dataReady} = useGuesserContext();  // Get carId from context
   //const imgCount=[0,9,8,5,7,5,8,8,8,8,5,8,7,8,8,7,6,5,7,8,8];
   const [images, setImages] = useState([]);
   const [doneFetching, setDoneFetching]= useState(false);
@@ -26,7 +26,7 @@ const SlideShow = () => {
        )
     };
     loadImages();
-  }, [carId]);
+  }, [dataReady]);
 
   const settings = {
     dots: true,
@@ -52,7 +52,7 @@ const SlideShow = () => {
     </div>
   );
   */
-  if(!doneFetching){
+  if(!doneFetching && !dataReady){
     return <p>Loading...</p>;
   }
  return(
