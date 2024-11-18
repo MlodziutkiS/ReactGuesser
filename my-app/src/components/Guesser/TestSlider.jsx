@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './SlideShow.css';
 //import { preload } from 'react-dom';
 
-const TestSlideShow = ({ images }) => {
+const TestSlideShow = ({ images=[] }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const goToNextSlide = () => {
