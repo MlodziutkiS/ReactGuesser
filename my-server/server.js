@@ -120,4 +120,14 @@ app.post("/api/submit-score",(req,res)=>{
     
 })
 
+app.get("/api/leaderboard:id", (req,res)=>{
+    const select=parseInt(req.params.id)
+    if(select===1){
+        res.json(leaderboard1mode);
+    }else{
+        res.json(leaderboard2mode);
+    }
+    
+} )
+
 app.listen(4000, ()=>{console.log("listening on port 4000")})

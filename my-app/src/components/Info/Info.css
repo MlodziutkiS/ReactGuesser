@@ -1,0 +1,9 @@
+#Panel{
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    flex-direction: row;
+}
+.leaderboardItems{
+    padding: 1em;
+}
