@@ -40,19 +40,19 @@ let maxId=2;// this means the array will hold 3 items
             //thus leaderboard will hold 3 best scores
 
             let leaderboard1mode=[
-                {user:"winner1", score:5},
-                {user:"mid1",score:3},
-                {user:"looser1",score:1}
+                {user:"Topka świata", score:5},
+                {user:"łysy fiveM", score:3},
+                {user:"Golfiarz",score:1}
             ]
             let leaderboard2mode=[
-                {user:"winner2", score:20},
-                {user:"mid2", score:100},
-                {user:"looser2", score:500}
+                {user:"Fioot Motors Ltd.", score:20},
+                {user:"Seaciarz", score:100},
+                {user:"Autokomis ul.", score:500}
             ]
 
     function isValidData({user="default", score=-5, mode=1, cheated=1}={}){
         //console.log(user ,score, mode, cheated);
-        if(Boolean(Number(cheated))){return false}
+        if(cheated){return false}
         switch (mode){
             case 1:
                 if(score<5 && score>=0){return true}
@@ -71,23 +71,22 @@ let maxId=2;// this means the array will hold 3 items
         if(incoming.mode===1){
             let lowestScore=leaderboard1mode[maxId].score
             if(lowestScore<=incoming.score){
-                let popAtIndex=leaderboard1mode.findIndex(obj => obj.score <= lowestScore);
+                let popAtIndex=leaderboard1mode.findIndex(obj => obj.score <= lowestScore);//index of first score to change
                 leaderboard1mode.pop(popAtIndex);
-                incoming=Object.assign(incoming)
                 delete incoming.cheated;
                 delete incoming.mode;
-                leaderboard1mode.push(incoming);
+                leaderboard1mode.splice(popAtIndex,0,incoming);
                 leaderboard1mode.sort((a,b)=>b.score-a.score)
                 console.log(leaderboard1mode)
             }
         }else if(incoming.mode===2){ 
             let lowestScore=leaderboard2mode[maxId].score
             if(lowestScore>=incoming.score){
-                leaderboard2mode.pop(maxId);
-                incoming=Object.assign(incoming)
+                let popAtIndex=leaderboard2mode.findIndex(obj => obj.score <= lowestScore);//index of first score to change
+                leaderboard2mode.pop(popAtIndex);
                 delete incoming.cheated;
                 delete incoming.mode;
-                leaderboard2mode.push(incoming)
+                leaderboard2mode.splice(popAtIndex,0,incoming);
                 leaderboard2mode.sort((a,b)=>a.score-b.score)
                 console.log(leaderboard2mode)
             }
@@ -99,19 +98,24 @@ let maxId=2;// this means the array will hold 3 items
 app.post("/api/submit-score",(req,res)=>{
     let typeObject=false;
     let data={user:"default", score:-5, mode:0, cheated:1};
-    if(typeof(req.query)==="object"){
+    if(typeof(req.query)==="object"){// <-- that shits probably an object by default
         typeObject=true;
+        try{
         data.user=String(req.query.user);
         data.score=Number(req.query.score);
         data.mode=Number(req.query.mode);
-        data.cheated=Boolean(Number(req.query.cheated));
+        data.cheated=Boolean(req.query.cheated);
+        //hopefully sterile data by now;
+        }catch(error){
+            res.send("Post recieved:"+error);
+        }
     }
     //console.log(typeObject);
     if(typeObject && isValidData(data)){
         handleValidData(data)
-        res.send("Post recieved and valid!")
+        res.send("Post recieved and valid!");
     }else{
-        res.send("Post recieved invalid!")
+        res.send("Post recieved invalid!");
     }
     
 })
