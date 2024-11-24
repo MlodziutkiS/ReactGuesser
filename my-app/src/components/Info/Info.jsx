@@ -43,32 +43,36 @@ useEffect(()=>{
                 <table>
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>username</th>
                             <th>score</th>
                         </tr>
                     </thead>
                     <tbody>
                     {leaderMode1.map((lead,index)=>
-                    <tr key={index}>
-                        <td>{lead.user}</td>
+                    <tr key={index} className={index%2===0? 'evenClass': 'oddClass'}>
+                        <td>{index+1}</td>
+                        <td style={{width:'10em'}}>{lead.user}</td>
                         <td>{lead.score}</td>
                     </tr>)}
                     </tbody>
                 </table>
             </div>
             <div className="leaderboardItems">
-                <p>Leaders of Dealers Mode</p>
+                <p>Leaders of Handlarzyk Mode</p>
                 <table>
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>username</th>
                             <th>score</th>
                         </tr>
                     </thead>
                     <tbody>
                     {leaderMode2.map((lead,index)=> 
-                    <tr key={index}>
-                        <td>{lead.user}</td>
+                    <tr key={index} className={index%2===0? 'evenClass': 'oddClass'}>
+                        <td>{index+1}</td>
+                        <td style={{width:'10em'}}>{lead.user}</td>
                         <td>{lead.score}</td>
                     </tr>)}
                     </tbody>

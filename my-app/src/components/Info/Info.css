@@ -3,7 +3,18 @@
     align-items: center;
     justify-content:space-around;
     flex-direction: row;
+    flex-wrap: wrap-reverse;
 }
 .leaderboardItems{
     padding: 1em;
+    margin: 0.5em;
+    border: 1px solid #333;
+    border-radius: 0.7em;
+}
+
+.evenClass{
+    background-color: #EEE;
+}
+.oddClass{
+    background-color: white;
 }
