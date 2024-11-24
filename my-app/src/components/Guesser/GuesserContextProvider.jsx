@@ -1,5 +1,7 @@
 // GuesserContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
+import Mode from './Mode';
 
 const GuesserContext = createContext();
 
@@ -21,6 +23,9 @@ export const GuesserProvider = ({ children }) => {
   const [count, setCount]=useState(1);
   const [carData, setCarData]=useState(undefined);
   const [dataReady, setDataReady]=useState(false);
+  const [cheater, setCheater]=useState(undefined);
+  const [user, setUsername]=useState(undefined);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     setDataReady(false);
@@ -38,9 +43,30 @@ export const GuesserProvider = ({ children }) => {
     const newId = Math.floor(Math.random() * totalCars)
       setCarId((prev) =>  prev === newId ? newId + 1 : newId)
   }
+
+  function sendScore(){
+    let prompt= prompt("Please enter your name");
+    setUsername(prompt);
+    const queryParams = new URLSearchParams({
+      user: user,
+      score: points,
+      mode: currentMode,
+      cheated: cheater
+    }).toString();
+
+    fetch(`/api/submit-score?${queryParams}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(resp=>resp.json).then(d=>console.log(d))
+
+  }
+
   function checkEnd(){
     if(count>=5){
-      console.log("add rerouting to finale page");
+      navigate("kontakt");
+      sendScore();
       console.log("Mode was: "+currentMode);
       console.log("Score was: "+points);
       setPoints(0);
@@ -57,6 +83,12 @@ export const GuesserProvider = ({ children }) => {
     setPoints(prev=>parseInt(prev+parseInt(n)));
     checkEnd();
   }
+
+  useEffect(()=>{     //here to detect cheaters *review
+    if(points!==0){
+      setCheater(true);
+    }
+  },[currentMode])
 
   useEffect(()=>{localStorage.setItem("points",points)},[points])
 
