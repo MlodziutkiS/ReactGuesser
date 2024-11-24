@@ -36,22 +36,34 @@ app.get("/api/videos", (req,res)=>{
     res.json(videos);
 } )
  
-let maxId=2;// this means the array will hold 3 items
-            //thus leaderboard will hold 3 best scores
+let maxId=9;// as length of board array
 
             let leaderboard1mode=[
-                {user:"Topka świata", score:5},
-                {user:"łysy fiveM", score:3},
-                {user:"Golfiarz",score:1}
+                { user: 'Zygzak Makłin', score: 5 },
+                { user: 'Heel toe', score: 4 },
+                { user: 'B1Szybki', score: 4 },
+                { user: 'Sprzedam Opla', score: 4 },
+                { user: 'Poldek Karo', score: 3 },
+                { user: 'Alnafalbeta', score: 3 },
+                { user: 'Golfiarz', score: 2 },
+                { user: 'Kubalonka', score: 2 },
+                { user: 'Hondziarz', score: 2 },
+                { user: 'Salmopol #1', score: 1 }
             ]
             let leaderboard2mode=[
-                {user:"Fioot Motors Ltd.", score:20},
-                {user:"Seaciarz", score:100},
-                {user:"Autokomis ul.", score:500}
+                {user: "Pan Janusz", score: 400},
+                {user: "Sklep z oscypkami", score: 2200},
+                {user: "CEO of KJS czeremcha", score: 3400},
+                {user: "Auto Komis Mońki", score: 3800},
+                {user: "Laki Strajk", score: 4100},
+                {user: "Akrobata", score: 4300},
+                {user: "Money shift", score: 4500},
+                {user: "LPG", score: 4600},
+                {user: "Win Gaz", score: 4800},
+                {user: "B5 passat", score: 5000}
             ]
 
     function isValidData({user="default", score=-5, mode=1, cheated=1}={}){
-        //console.log(user ,score, mode, cheated);
         if(cheated){return false}
         switch (mode){
             case 1:
@@ -68,10 +80,11 @@ let maxId=2;// this means the array will hold 3 items
     }
 
     function handleValidData(incoming){
+            // adding new score to the table, make new scores push out old ones
         if(incoming.mode===1){
             let lowestScore=leaderboard1mode[maxId].score
             if(lowestScore<=incoming.score){
-                let popAtIndex=leaderboard1mode.findIndex(obj => obj.score <= lowestScore);//index of first score to change
+                let popAtIndex=leaderboard1mode.findIndex(obj => obj.score <= lowestScore);
                 leaderboard1mode.pop(popAtIndex);
                 delete incoming.cheated;
                 delete incoming.mode;
@@ -82,7 +95,7 @@ let maxId=2;// this means the array will hold 3 items
         }else if(incoming.mode===2){ 
             let lowestScore=leaderboard2mode[maxId].score
             if(lowestScore>=incoming.score){
-                let popAtIndex=leaderboard2mode.findIndex(obj => obj.score <= lowestScore);//index of first score to change
+                let popAtIndex=leaderboard2mode.findIndex(obj => obj.score <= lowestScore);
                 leaderboard2mode.pop(popAtIndex);
                 delete incoming.cheated;
                 delete incoming.mode;
@@ -96,22 +109,17 @@ let maxId=2;// this means the array will hold 3 items
     }
 
 app.post("/api/submit-score",(req,res)=>{
-    let typeObject=false;
     let data={user:"default", score:-5, mode:0, cheated:1};
-    if(typeof(req.query)==="object"){// <-- that shits probably an object by default
-        typeObject=true;
-        try{
+
+        // this code needs some improvement
         data.user=String(req.query.user);
+        data.user= data.user.trim().slice(0,20);
         data.score=Number(req.query.score);
         data.mode=Number(req.query.mode);
         data.cheated=Boolean(req.query.cheated);
         //hopefully sterile data by now;
-        }catch(error){
-            res.send("Post recieved:"+error);
-        }
-    }
-    //console.log(typeObject);
-    if(typeObject && isValidData(data)){
+
+    if(isValidData(data)){
         handleValidData(data)
         res.send("Post recieved and valid!");
     }else{
