@@ -17,11 +17,8 @@ function CarBrowser(){
           ).catch(()=>{
             console.log("error fetching /api/statistical");
           })
-       fetch("/api/cars").then(
-        response => response.json()
-       ).then(
-        data =>
-        setCars(data)
+       axios.get("/api/cars?short").then(
+        data => setCars(data.data)
        ).finally(
         setDoneFetching(true)
        )

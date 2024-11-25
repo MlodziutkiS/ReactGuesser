@@ -53,20 +53,22 @@ export const GuesserProvider = ({ children }) => {
       cheated: cheater
     });
 
-    console.log(queryParams)
+    //console.log(queryParams)
 
-    fetch(`/api/submit-score?${queryParams}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(resp=>resp.json).then(d=>console.log(d))
+    axios.post(`/api/submit-score/`, {
+      user: prompt,
+      mode: currentMode,
+      score: points,
+      cheated: cheater
+    }).then(
+      resp=>console.log(resp.data))
+      .catch(err=>console.log(err))
 
   }
 
   function countAndCheck(){
     setCount(prev=> prev+1)
-    console.log("counted")
+    //console.log("counted")
     checkEnd();
   }
   function checkEnd(){
@@ -74,8 +76,8 @@ export const GuesserProvider = ({ children }) => {
     if(count>=5){
       navigate("/kontakt");
       sendScore();
-      console.log("Mode was: "+currentMode);
-      console.log("Score was: "+points);
+      //console.log("Mode was: "+currentMode);
+      //console.log("Score was: "+points);
       setPoints(0);
       setCount(0);
     }
@@ -89,11 +91,11 @@ export const GuesserProvider = ({ children }) => {
     setPoints(prev=>parseInt(prev+parseInt(n)));
   }
 
-  useEffect(()=>{     //here to detect cheaters *review
+  useEffect(()=>{     //here to detect cheaters
     if(count!==1){
       setCheater(true);
-      console.log("cheater")
-      console.log(count)
+      //console.log("cheater")
+      //console.log(count)
     }
   },[currentMode])
 

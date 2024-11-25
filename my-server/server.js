@@ -24,7 +24,9 @@ app.get("/api/cars/", (req,res) =>{
 app.get("/api/cars/:id", (req,res) =>{
     const carIn = parseInt(req.params.id);
     if(carIn >=0 && carIn<cars.length){
-            res.json(cars[carIn]);
+            let output=cars[carIn];
+            output.photos.shift();
+            res.json(output);
     }else{
         res.status(404).json({ error: 'Car not found' , carIn});
     }
@@ -121,8 +123,6 @@ app.post("/api/submit-score",urlencodedParser,(req,res)=>{
         data.score=Number(request.score);
         data.mode=Number(request.mode);
         data.cheated=Boolean(request.cheated);
-        console.log(data);
-        console.log(request);
         //hopefully sterile data by now;
 
     if(isValidData(data)){
