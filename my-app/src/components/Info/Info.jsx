@@ -30,16 +30,23 @@ useEffect(()=>{
     return(<p>Loading...</p>)
   }
 
-
     return (
         <div id="Panel">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=info" />
         <aside className="leaderboardItems">
         Smieszny projekt, na ktory wpadlismy z ziomkiem, <br/>obiecalismy sobie, ze damy z siebie max 30%. <br/>kontakt discord: cztery5<br/>
         Jako mlodziutki spocilem sie niezle +- 31.1% i jest teraz w reakcie
         </aside>
         <aside>
             <div className="leaderboardItems">
-                <p>Leaders of Strict Mode</p>
+                <div>Leaders of Strict Mode
+                    <aside style={{float:"right"}} className="info">
+                        <span className="material-symbols-outlined">info</span>
+                        <span className="tip">
+                            In Strict Mode only precise guesses result in a point<br/>
+                            the higher the score the better
+                        </span>
+                    </aside></div><br/>
                 <table>
                     <thead>
                         <tr>
@@ -59,7 +66,14 @@ useEffect(()=>{
                 </table>
             </div>
             <div className="leaderboardItems">
-                <p>Leaders of Handlarzyk Mode</p>
+                <div>Leaders of Handlarzyk Mode
+                    <aside style={{float:"right"}} className="info">
+                    <span className="material-symbols-outlined">info</span>
+                    <span className="tip">
+                        In Handlarzyk Mode guess precision is measured<br/>
+                        The lower the score the better
+                    </span>
+                    </aside></div><br/>
                 <table>
                     <thead>
                         <tr>
