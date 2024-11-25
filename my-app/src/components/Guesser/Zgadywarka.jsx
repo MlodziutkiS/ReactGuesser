@@ -12,9 +12,9 @@ function Zgadywarka(){
       };
 
     function handleClick() {
-        countAndCheck()
         switch(currentMode){
             case 1:
+                countAndCheck()
                 if(inputValue === carData.price){
                     console.log("zabieraj tego szrota")
                     addPoint()
@@ -23,6 +23,7 @@ function Zgadywarka(){
                 }
             break;
             case 2:
+                countAndCheck()
                 if(inputValue >= carData.price){
                     console.log("zabieraj tego szrota")
                     addScore(inputValue-carData.price)
@@ -48,7 +49,7 @@ function Zgadywarka(){
             <h1 id="tytul">{carData.title}</h1>
                     <input 
                 type="number" 
-                value={inputValue} 
+                value={currentMode===3?carData.price:inputValue} 
                 onChange={handleInputChange} 
                 className='BuyField'
             />
