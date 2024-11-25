@@ -1,7 +1,8 @@
 //const express = require('express')
-import express, { text } from 'express';
+import express, { json, text } from 'express';
 import cars from './database/cars.js';
 import videos from './database/videos.js';
+import bodyParser from 'body-parser';
 
 const app = express()
 
@@ -60,7 +61,7 @@ let maxId=9;// as length of board array
                 {user: "Money shift", score: 4500},
                 {user: "LPG", score: 4600},
                 {user: "Win Gaz", score: 4800},
-                {user: "B5 passat", score: 5000}
+                {user: "B5 passat", score: 25000}
             ]
 
     function isValidData({user="default", score=-5, mode=1, cheated=1}={}){
@@ -108,15 +109,20 @@ let maxId=9;// as length of board array
         }
     }
 
-app.post("/api/submit-score",(req,res)=>{
-    let data={user:"default", score:-5, mode:0, cheated:1};
+    var urlencodedParser = bodyParser.urlencoded({ extended: false })
+    app.use(bodyParser.json())
 
+app.post("/api/submit-score",urlencodedParser,(req,res)=>{
+    let data={user:"default", score:-5, mode:0, cheated:1};
         // this code needs some improvement
-        data.user=String(req.query.user);
+        let request=req.body;
+        data.user=String(request.user);
         data.user= data.user.trim().slice(0,20);
-        data.score=Number(req.query.score);
-        data.mode=Number(req.query.mode);
-        data.cheated=Boolean(req.query.cheated);
+        data.score=Number(request.score);
+        data.mode=Number(request.mode);
+        data.cheated=Boolean(request.cheated);
+        console.log(data);
+        console.log(request);
         //hopefully sterile data by now;
 
     if(isValidData(data)){

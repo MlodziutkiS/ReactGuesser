@@ -1,7 +1,7 @@
 // GuesserContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
-import Mode from './Mode';
+import {useNavigate} from 'react-router';
+import axios from 'axios';
 
 const GuesserContext = createContext();
 
@@ -10,11 +10,11 @@ export const GuesserProvider = ({ children }) => {
 
   const [totalCars,setTotalCars]=useState(0);
   useEffect(()=>{
-    fetch("/api/statistical").then(
-      response => response.json()
-    ).then(
-      data => setTotalCars(data)
-    )
+    axios.get("/api/statistical").then(
+      response => setTotalCars(response.data)
+    ).catch(()=>{
+      console.log("error fetching /api/statistical");
+    })
   },[])
   // Initialize the context values with useState hooks
   const [carId, setCarId] = useState(Math.floor(Math.random() * 20));        // Default to `null` or a specific ID if needed
@@ -29,11 +29,10 @@ export const GuesserProvider = ({ children }) => {
 
   useEffect(()=>{
     setDataReady(false);
-    let url="/api/cars/"+carId
-    fetch(url).then(
-      response => response.json()
-    ).then(
-      data => setCarData(data)
+    let url=`/api/cars/${carId}`
+    axios.get(url).then(
+      data => {
+        setCarData(data.data)}
     ).finally(
       setDataReady(true)
     )
@@ -44,15 +43,17 @@ export const GuesserProvider = ({ children }) => {
       setCarId((prev) =>  prev === newId ? newId + 1 : newId)
   }
 
-  function sendScore(){
-    let prompt= prompt("Please enter your name");
+   function sendScore(){
+    let prompt= window.prompt("Please enter your name");
     setUsername(prompt);
     const queryParams = new URLSearchParams({
-      user: user,
+      user: prompt,
       score: points,
       mode: currentMode,
       cheated: cheater
-    }).toString();
+    });
+
+    console.log(queryParams)
 
     fetch(`/api/submit-score?${queryParams}`, {
       method: 'POST',
@@ -63,37 +64,43 @@ export const GuesserProvider = ({ children }) => {
 
   }
 
+  function countAndCheck(){
+    setCount(prev=> prev+1)
+    console.log("counted")
+    checkEnd();
+  }
   function checkEnd(){
+    console.log(count)
     if(count>=5){
-      navigate("kontakt");
+      navigate("/kontakt");
       sendScore();
       console.log("Mode was: "+currentMode);
       console.log("Score was: "+points);
       setPoints(0);
       setCount(0);
-    }else{
-      setCount(prev=>parseInt(prev+1));
     }
   }
+
   function addPoint(){
     setPoints(prev=>parseInt(prev+1));
-    checkEnd();
   }
+
   function addScore(n){
     setPoints(prev=>parseInt(prev+parseInt(n)));
-    checkEnd();
   }
 
   useEffect(()=>{     //here to detect cheaters *review
-    if(points!==0){
+    if(count!==1){
       setCheater(true);
+      console.log("cheater")
+      console.log(count)
     }
   },[currentMode])
 
   useEffect(()=>{localStorage.setItem("points",points)},[points])
 
   return (
-    <GuesserContext.Provider value={{ dataReady, carData, changeCar, currentMode, setCurrentMode , points, addPoint, addScore}}>
+    <GuesserContext.Provider value={{ dataReady, carData, changeCar, currentMode, setCurrentMode , points, addPoint, addScore, countAndCheck}}>
       {children}
     </GuesserContext.Provider>
   );

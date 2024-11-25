@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CarCard from './CarCard';
+import axios from 'axios';
 
 function CarBrowser(){
     const style={
@@ -11,11 +12,11 @@ function CarBrowser(){
     const [totalCars, setTotalCars]=useState(null);
     const [doneFetching, setDoneFetching]= useState(false);
     useEffect(()=>{
-       fetch("/api/statistical").then(
-            response => response.json()
-       ).then(
-            data=> setTotalCars(data)
-       )
+        axios.get("/api/statistical").then(
+            response => setTotalCars(response.data)
+          ).catch(()=>{
+            console.log("error fetching /api/statistical");
+          })
        fetch("/api/cars").then(
         response => response.json()
        ).then(

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import './Guesser.css';
 function Zgadywarka(){
 
-    const { dataReady, carData , changeCar, addPoint, currentMode, addScore} = useGuesserContext();
+    const { dataReady, carData , changeCar, addPoint, currentMode, addScore, countAndCheck} = useGuesserContext();
     const [inputValue, setInputValue] = useState(0);
  
     const handleInputChange = (event) => {
@@ -12,6 +12,7 @@ function Zgadywarka(){
       };
 
     function handleClick() {
+        countAndCheck()
         switch(currentMode){
             case 1:
                 if(inputValue === carData.price){
