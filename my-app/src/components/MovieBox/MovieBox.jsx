@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './MovieBox.css';
 import { preload } from 'react-dom';
+import axios from 'axios';
 
 function MovieBox(){
 
     const [vidId, setvidId]=useState(0);
-    const [videos, setVideos]=useState([{link:"placeholder", desc:"Loading..."}]);
+    const [videos, setVideos]=useState(undefined);
     let maxId=0;
     
     useEffect(()=>{
-        fetch("/api/videos").then(
-        response => response.json()
-       ).then(
-        data=> setVideos(data)
+        axios.get("/api/videos").then(
+        data => setVideos(data.data)
        )
-        
     },[vidId])
-    maxId = videos.length-1;
     //console.log(videos[vidId+1]);
     function handlePreload(){/*
          
@@ -30,6 +27,11 @@ function MovieBox(){
         catch{
             //console.log("womp womp preload didnt preload something");
 	}*/return;}
+    if(videos===undefined){
+        return(<p>Loading...</p>)
+    }else{
+        maxId = videos.length-1
+    }
     return(
         <div className='videoBox'>
             <button onClick={() => vidId===0? setvidId(maxId):setvidId(vidId-1)}>&lt;</button>
