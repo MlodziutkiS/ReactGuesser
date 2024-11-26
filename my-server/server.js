@@ -72,9 +72,9 @@ let maxId=9;// as length of board array
         ]
 
     try{
-        const readLead1=fs.readFileSync('leader1.json', 'utf8');
+        const readLead1=fs.readFileSync('./database/leader1.json', 'utf8');
         let leaderboard1mode=JSON.parse(readLead1);
-        const readLead2=fs.readFileSync('leader2.json', 'utf8');
+        const readLead2=fs.readFileSync('./database/leader2.json', 'utf8');
         let leaderboard2mode=JSON.parse(readLead2);
     }catch(err){
         console.log("error reading data: ", err);
@@ -162,13 +162,13 @@ app.get("/api/leaderboard:id", (req,res)=>{
     function save(){    //make sure no data is lost
         const lead1Str= JSON.stringify(leaderboard1mode, null, 2);
         try{
-        fs.writeFileSync('leader1.json', lead1Str);
+        fs.writeFileSync('./database/leader1.json', lead1Str);
         }catch(err){
             throw new error("writing error occured:",err);
         }
         const lead2Str= JSON.stringify(leaderboard2mode, null, 2);
         try{
-        fs.writeFileSync('leader2.json', lead2Str);
+        fs.writeFileSync('./database/leader2.json', lead2Str);
         }catch(err){
             throw new error("writing error occured:",err);
         }
