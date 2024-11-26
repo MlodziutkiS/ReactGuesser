@@ -3,7 +3,7 @@ import { useGuesserContext } from './GuesserContextProvider';
 import '../Button/Button.css'
 import './Mode.css'
 const Mode = () => {
-  const { carData, currentMode, setCurrentMode } = useGuesserContext();
+  const { carData, currentMode, setCurrentMode, changeCar } = useGuesserContext();
   const maxMode=3;
   function ModeLookup(){
     let output;
@@ -21,9 +21,9 @@ const Mode = () => {
   }
   return (
     <div className='ModeSelect'>
-      <button className='mode-nav' style={{width:"5em"}} onClick={() => currentMode==1? setCurrentMode(maxMode):setCurrentMode(currentMode-1)}>&lt;</button>
+      <button className='mode-nav' style={{width:"5em"}} onClick={() => {currentMode==1? setCurrentMode(maxMode):setCurrentMode(currentMode-1); changeCar()}}>&lt;</button>
       <p>Car ID: {carData.id}<br/>Current Mode: {ModeLookup()} </p>
-      <button className='mode-nav'  style={{width:"5em"}} onClick={() => currentMode==maxMode? setCurrentMode(1):setCurrentMode(currentMode+1)}>&gt;</button>
+      <button className='mode-nav'  style={{width:"5em"}} onClick={() => {currentMode==maxMode? setCurrentMode(1):setCurrentMode(currentMode+1);changeCar()}}>&gt;</button>
     </div>
   );
 };
