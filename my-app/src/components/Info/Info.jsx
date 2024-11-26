@@ -34,7 +34,7 @@ useEffect(()=>{
         <div id="Panel">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=info" />
         <aside className="leaderboardItems">
-        Smieszny projekt, na ktory wpadlismy z ziomkiem, <br/>obiecalismy sobie, ze damy z siebie max 30%. <br/>kontakt discord: cztery5<br/>
+        Smieszny projekt, na ktory wpadlismy z ziomkiem, <br/>obiecalismy sobie, ze damy z siebie max 30%. <br/>github repo: <a href="https://github.com/MlodziutkiS/ReactGuesser" style={{textDecoration:'none'}}>here</a><br/>
         Jako mlodziutki spocilem sie niezle +- 31.1% i jest teraz w reakcie
         </aside>
         <aside>
