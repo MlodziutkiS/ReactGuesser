@@ -3,6 +3,9 @@ import express, { json, text } from 'express';
 import cars from './database/cars.js';
 import videos from './database/videos.js';
 import bodyParser from 'body-parser';
+import process from 'node:process';
+import fs from 'fs';
+import { error } from 'node:console';
 
 const app = express()
 
@@ -41,30 +44,42 @@ app.get("/api/videos", (req,res)=>{
  
 let maxId=9;// as length of board array
 
-            let leaderboard1mode=[
-                { user: 'Zygzak Makłin', score: 5 },
-                { user: 'Heel toe', score: 4 },
-                { user: 'B1Szybki', score: 4 },
-                { user: 'Sprzedam Opla', score: 4 },
-                { user: 'Poldek Karo', score: 3 },
-                { user: 'Alnafalbeta', score: 3 },
-                { user: 'Golfiarz', score: 2 },
-                { user: 'Kubalonka', score: 2 },
-                { user: 'Hondziarz', score: 2 },
-                { user: 'Salmopol #1', score: 1 }
-            ]
-            let leaderboard2mode=[
-                {user: "Pan Janusz", score: 400},
-                {user: "Sklep z oscypkami", score: 2200},
-                {user: "CEO of KJS czeremcha", score: 3400},
-                {user: "Auto Komis Mońki", score: 3800},
-                {user: "Laki Strajk", score: 4100},
-                {user: "Akrobata", score: 4300},
-                {user: "Money shift", score: 4500},
-                {user: "LPG", score: 4600},
-                {user: "Win Gaz", score: 4800},
-                {user: "B5 passat", score: 25000}
-            ]
+        // in case no data read fallback values
+
+        let leaderboard1mode=[
+            { user: 'Zygzak Makłin', score: 5 },
+            { user: 'Heel toe', score: 4 },
+            { user: 'B1Szybki', score: 4 },
+            { user: 'Sprzedam Opla', score: 4 },
+            { user: 'Poldek Karo', score: 3 },
+            { user: 'Alnafalbeta', score: 3 },
+            { user: 'Golfiarz', score: 2 },
+            { user: 'Kubalonka', score: 2 },
+            { user: 'Hondziarz', score: 2 },
+            { user: 'Salmopol #1', score: 1 }
+        ]
+        let leaderboard2mode=[
+            {user: "Pan Janusz", score: 400},
+            {user: "Sklep z oscypkami", score: 2200},
+            {user: "CEO of KJS czeremcha", score: 3400},
+            {user: "Auto Komis Mońki", score: 3800},
+            {user: "Laki Strajk", score: 4100},
+            {user: "Akrobata", score: 4300},
+            {user: "Money shift", score: 4500},
+            {user: "LPG", score: 4600},
+            {user: "Win Gaz", score: 4800},
+            {user: "B5 passat", score: 25000}
+        ]
+
+    try{
+        const readLead1=fs.readFileSync('leader1.json', 'utf8');
+        let leaderboard1mode=JSON.parse(readLead1);
+        const readLead2=fs.readFileSync('leader2.json', 'utf8');
+        let leaderboard2mode=JSON.parse(readLead2);
+    }catch(err){
+        console.log("error reading data: ", err);
+        console.log("leaderboard1mode value:", leaderboard1mode,"leaderboard2mode value:", leaderboard2mode);
+    }
 
     function isValidData({user="default", score=-5, mode=1, cheated=1}={}){
         if(cheated){return false}
@@ -144,4 +159,34 @@ app.get("/api/leaderboard:id", (req,res)=>{
     
 } )
 
+    function save(){    //make sure no data is lost
+        const lead1Str= JSON.stringify(leaderboard1mode, null, 2);
+        try{
+        fs.writeFileSync('leader1.json', lead1Str);
+        }catch(err){
+            throw new error("writing error occured:",err);
+        }
+        const lead2Str= JSON.stringify(leaderboard2mode, null, 2);
+        try{
+        fs.writeFileSync('leader2.json', lead2Str);
+        }catch(err){
+            throw new error("writing error occured:",err);
+        }
+        return "Saved"
+    }
+
+    // in case external processes force terminate nodejs
+    process.on('SIGTERM', save);
+    process.on('SIGQUIT', save);
+    // on ctrl-c
+    process.on('SIGINT',()=>{
+        save()
+        process.exit(0);
+    })
+    process.on('exit',(code)=>{
+        console.log("saving...");
+        console.log(save());
+    })
+
 app.listen(4000, ()=>{console.log("listening on port 4000")})
+
