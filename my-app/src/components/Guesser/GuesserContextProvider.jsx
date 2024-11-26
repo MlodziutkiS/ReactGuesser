@@ -30,12 +30,12 @@ export const GuesserProvider = ({ children }) => {
   useEffect(()=>{
     setDataReady(false);
     let url=`/api/cars/${carId}`
-    axios.get(url).then(
-      data => {
-        setCarData(data.data)}
-    ).finally(
-      setDataReady(true)
-    )
+      axios.get(url).then(
+        data => {
+          setCarData(data.data)}
+      ).finally(
+        setDataReady(true)
+    ).catch((err)=> console.log(err))
   },[carId])
   
   function changeCar ()  {
