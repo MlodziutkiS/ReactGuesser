@@ -34,9 +34,9 @@
 
     position: absolute;
     z-index: 1;
-    bottom: -125%; /* Position the tooltip above the link */
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: -260%; /* Position the tooltip above the link */
+    left: 157%;
+    transform: translateX(-100%);
     opacity: 0; /* Start hidden */
     transition: opacity 0.4s;
 }
