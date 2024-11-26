@@ -45,6 +45,7 @@ export const GuesserProvider = ({ children }) => {
 
    function sendScore(){
     let prompt= window.prompt("Please enter your name");
+    prompt.slice(0,20);
     setUsername(prompt);
     const queryParams = new URLSearchParams({
       user: prompt,
