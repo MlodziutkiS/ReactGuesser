@@ -6,8 +6,16 @@ import bodyParser from 'body-parser';
 import process from 'node:process';
 import fs from 'fs';
 import { error } from 'node:console';
+import cors from 'cors';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import fileUpload from 'express-fileupload';
 
 const app = express()
+
+app.use(bodyParser.json())
+app.use(cors({origin:'http://localhost:3000'}))
+app.use(fileUpload());
 
 app.get("/api/cars/", (req,res) =>{
     const short = req.query.short !== undefined;
@@ -127,7 +135,7 @@ let maxId=9;// as length of board array
     }
 
     var urlencodedParser = bodyParser.urlencoded({ extended: false })
-    app.use(bodyParser.json())
+
 
 app.post("/api/submit-score",urlencodedParser,(req,res)=>{
     let data={user:"default", score:-5, mode:0, cheated:1};
@@ -158,6 +166,56 @@ app.get("/api/leaderboard:id", (req,res)=>{
     }
     
 } )
+
+let users=[];
+
+try{
+    const readSecrets=fs.readFileSync('./database/secrets.json', 'utf8');
+    users=JSON.parse(readSecrets);
+}catch(err){
+    console.error("Error reading secrets: ", err);
+}
+
+const SECRET_KEY="salt and pepper for passwords";
+
+app.post("/api/login", async(req,res)=>{
+    const {username , password} = req.body;
+
+    const user= users.find(user=> user.username === username);
+    if(user===undefined) return res.status(400).json({message:'error 400: Bad Request'});
+
+    const passMatch= await bcrypt.compare(password, user.password);
+    if(!passMatch) return res.status(400).json({message:'error 400: Bad Request'});
+
+    const token=jwt.sign({username: user.username}, SECRET_KEY, {expiresIn:'1h'});
+
+    res.json({token});
+})
+
+
+app.post("/api/upload",(req,res)=>{
+
+    const token= req.headers['authorization'];
+    if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
+
+    jwt.verify(token, SECRET_KEY, (err, decoded)=>{
+        if(err) return res.status(401).json({message:'error 401: Unauthorized'});
+        
+        res.json({message:'Access granted'});
+        
+        console.log(req.files);
+
+        req.files.forEach(child=>{
+            console.log(child);
+        })
+
+        
+    })
+
+
+    
+})
+
 
     function save(){    //make sure no data is lost
         const lead1Str= JSON.stringify(leaderboard1mode, null, 2);
