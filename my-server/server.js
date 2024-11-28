@@ -119,7 +119,7 @@ let maxId=9;// as length of board array
                 if(score>=0){return true}
                 break;
             default:
-                console.error("unknown mode recieved: "+ mode);
+                //console.error("unknown mode recieved: "+ mode);
                 return false;
         }
         return false;
@@ -281,12 +281,13 @@ app.post("/api/upload",(req,res)=>{
                 ["price", newPrice],
                 ["photos", newPhotos]
             ])
-            
+
             const newObj= Object.fromEntries(newEntries);
             cars.push(newObj);
         
     })
 
+    res.status(200);
 
     
 })
