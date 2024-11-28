@@ -1,4 +1,4 @@
-const cars =[{
+const carsBak =[{
     id: 0,
     title:"Ford Fusion 1.4 disel",
     desc:"Rok 2005\n Przegląd do czerwca 2024r\n Oc do maja 2024r\n Przebieg 297000\n Kolor czarny\n Stan dobry\n Po więcej informacji proszę dzwonić pod podany numer telefonu jest to samochód mojego taty.",
@@ -121,4 +121,4 @@ const cars =[{
     photos:["gruzy/auto20/image1-prev.jpg","gruzy/auto20/image1.jpg","gruzy/auto20/image2.jpg","gruzy/auto20/image3.jpg","gruzy/auto20/image4.jpg","gruzy/auto20/image5.jpg","gruzy/auto20/image6.jpg","gruzy/auto20/image7.jpg","gruzy/auto20/image8.jpg"]
 }]
 
-export default cars;
+export default carsBak;
