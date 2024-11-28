@@ -1,21 +1,41 @@
-//const express = require('express')
 import express, { json, text } from 'express';
-import cars from './database/cars.js';
+import carsBak from './database/cars.js';
 import videos from './database/videos.js';
+//parse Post body
 import bodyParser from 'body-parser';
+//reading data on startup and saving on termination
 import process from 'node:process';
 import fs from 'fs';
 import { error } from 'node:console';
+//authorization
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+//file uploads
 import fileUpload from 'express-fileupload';
+import path from 'node:path';
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(cors({origin:'http://localhost:3000'}))
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/',
+    //debug:true,
+    parseNested:true,
+}));
+
+let cars=[];
+
+try{
+    const readCars=fs.readFileSync('./database/cars.json', 'utf8');
+    cars=JSON.parse(readCars);
+}catch(err){
+    console.log("error reading data: ", err);
+    cars=carsBak;
+    console.log("cars fallback to cars.js:");
+}
 
 app.get("/api/cars/", (req,res) =>{
     const short = req.query.short !== undefined;
@@ -193,22 +213,77 @@ app.post("/api/login", async(req,res)=>{
 })
 
 
+function createNextAutoDirectory(basePath) {
+    // Read existing directories in the base path
+    const existingDirs = fs.readdirSync(basePath)
+        .filter((dir) => /^auto\d+$/.test(dir)) // Match directories like "auto1", "auto2", etc.
+        .map((dir) => parseInt(dir.replace('auto', ''), 10)) // Extract the number
+        .sort((a, b) => a - b); // Sort numerically
+
+    // Determine the next available number
+    const nextNumber = existingDirs.length > 0 ? existingDirs[existingDirs.length - 1] + 1 : 1;
+    const newDirName = `auto${nextNumber}`;
+
+    // Create the new directory
+    const newDirPath = path.join(basePath, newDirName);
+    fs.mkdirSync(newDirPath);
+    console.log(`Created new directory: ${newDirPath}`);
+
+    return newDirPath;
+}
+
+
 app.post("/api/upload",(req,res)=>{
 
     const token= req.headers['authorization'];
-    if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
+    //if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
 
     jwt.verify(token, SECRET_KEY, (err, decoded)=>{
-        if(err) return res.status(401).json({message:'error 401: Unauthorized'});
+        //if(err) return res.status(401).json({message:'error 401: Unauthorized'});
         
         res.json({message:'Access granted'});
         
-        console.log(req.files);
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('No files were uploaded.');
+          }
 
-        req.files.forEach(child=>{
-            console.log(child);
-        })
+        //console.log(req.files);
+        const allFiles=req.files;
+        const __dirname = path.resolve(path.dirname(''));
 
+            const basePath=path.resolve(__dirname,"../my-app/public/gruzy");
+            const newUploadPath=createNextAutoDirectory(basePath);
+
+            const lastCarsIndex=cars.length;
+            let newPhotos=[];
+            let newDesc=req.body.desc;
+            let newTitle=req.body.title;
+            let newPrice=req.body.price;
+
+            console.log(basePath,"is base path", newUploadPath,"is new folder path");
+
+            Object.entries(allFiles).forEach(([input, upload])=>{
+
+                console.log("new file:",upload.name,"uploaded by:", decoded, "from input:",input);
+
+                const filePath=path.join(newUploadPath, upload.name);
+
+                upload.mv(filePath,(err)=>{
+                    if(err!==undefined){console.log("error 500:",err);}
+                })
+                newPhotos.push(filePath.slice(filePath.indexOf("gruzy")))
+            })
+
+            const newEntries= new Map([
+                ["id", lastCarsIndex],
+                ["title", newTitle],
+                ["desc", newDesc],
+                ["price", newPrice],
+                ["photos", newPhotos]
+            ])
+            
+            const newObj= Object.fromEntries(newEntries);
+            cars.push(newObj);
         
     })
 
@@ -220,15 +295,21 @@ app.post("/api/upload",(req,res)=>{
     function save(){    //make sure no data is lost
         const lead1Str= JSON.stringify(leaderboard1mode, null, 2);
         try{
-        fs.writeFileSync('./database/leader1.json', lead1Str);
+            fs.writeFileSync('./database/leader1.json', lead1Str);
         }catch(err){
             throw new error("writing error occured:",err);
         }
         const lead2Str= JSON.stringify(leaderboard2mode, null, 2);
         try{
-        fs.writeFileSync('./database/leader2.json', lead2Str);
+            fs.writeFileSync('./database/leader2.json', lead2Str);
         }catch(err){
             throw new error("writing error occured:",err);
+        }
+        const carsStr= JSON.stringify(cars, null, 2);
+        try{
+            fs.writeFileSync('./database/cars.json', carsStr);
+        }catch(err){
+            throw new error("writing error ocured:",err);
         }
         return "Saved"
     }
