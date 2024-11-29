@@ -26,6 +26,15 @@ app.use(fileUpload({
     parseNested:true,
 }));
 
+// secret.json prot [{username:"", password:""}]
+function generateNewHashedPassword(password, saltRounds){
+    
+    bcrypt.hash(password, saltRounds, (err, hash)=>{
+        console.log("error:",err,"hash:",hash);
+    });
+
+}
+
 let cars=[];
 
 try{
@@ -202,7 +211,9 @@ app.post("/api/login", async(req,res)=>{
     const {username , password} = req.body;
 
     const user= users.find(user=> user.username === username);
-    if(user===undefined) return res.status(400).json({message:'error 400: Bad Request'});
+    if(user===undefined) return setTimeout(()=>{    //prevent leaking usernames via timing attacks
+        res.status(400).json({message:'error 400: Bad Request'});
+    }, Math.random()*50+70)
 
     const passMatch= await bcrypt.compare(password, user.password);
     if(!passMatch) return res.status(400).json({message:'error 400: Bad Request'});
@@ -236,10 +247,10 @@ function createNextAutoDirectory(basePath) {
 app.post("/api/upload",(req,res)=>{
 
     const token= req.headers['authorization'];
-    //if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
+    if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
 
     jwt.verify(token, SECRET_KEY, (err, decoded)=>{
-        //if(err) return res.status(401).json({message:'error 401: Unauthorized'});
+        if(err) return res.status(401).json({message:'error 401: Unauthorized'});
         
         res.json({message:'Access granted'});
         
@@ -260,7 +271,7 @@ app.post("/api/upload",(req,res)=>{
             let newTitle=String(req.body.title);
             let newPrice=Number(req.body.price);
 
-            console.log(basePath,"is base path", newUploadPath,"is new folder path");
+            //console.log(basePath,"is base path", newUploadPath,"is new folder path");
 
             Object.entries(allFiles).forEach(([input, upload])=>{
 
