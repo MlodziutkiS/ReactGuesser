@@ -196,7 +196,7 @@ try{
     console.error("Error reading secrets: ", err);
 }
 
-const SECRET_KEY="salt and pepper for passwords";
+const SECRET_KEY="this should be in secrets"; //move this to secrets
 
 app.post("/api/login", async(req,res)=>{
     const {username , password} = req.body;
