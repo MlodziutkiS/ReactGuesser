@@ -3,6 +3,7 @@
     -are saved on script termination
 
 GET
+
     /api/cars/:id        -get car with specific id (params) 
     /api/cars/?short     -get all cars with preview photos and without desc (querry)
     /api/cars            -get all cars with all data
