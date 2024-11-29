@@ -256,9 +256,9 @@ app.post("/api/upload",(req,res)=>{
 
             const lastCarsIndex=cars.length;
             let newPhotos=[];
-            let newDesc=req.body.desc;
-            let newTitle=req.body.title;
-            let newPrice=req.body.price;
+            let newDesc=String(req.body.desc);
+            let newTitle=String(req.body.title);
+            let newPrice=Number(req.body.price);
 
             console.log(basePath,"is base path", newUploadPath,"is new folder path");
 
