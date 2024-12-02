@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function AddPhotos(){
+
+    const [photos, addPhotos]= useState(["photo1", "photo2"]);
+
+    function addInput(){
+        addPhotos()
+    }
+
     return (
     <div>
-        https://www.npmjs.com/package/express-fileupload
+
     </div>
     );
 }
