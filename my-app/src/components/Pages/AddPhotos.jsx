@@ -9,9 +9,15 @@ function AddPhotos(){
             // Now get the form data as you regularly would
             const formData = new FormData(e.currentTarget);
             const file =  formData.get("my-file");
+            const title = formData.get("title");
+            const desc = fromData.get("description");
+            const price = formData.get("price");
             alert(file.name); 
           }}>
             <Dropzone name ="my-file" required/>
+            <input type='text' name='title'></input>
+            <input type='text' name='description'></input>
+            <input type='number' name='price'></input>
             <button type="submit">Submit</button>
           </form>
     );
