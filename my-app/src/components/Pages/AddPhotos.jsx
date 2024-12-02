@@ -10,7 +10,7 @@ function AddPhotos(){
             const formData = new FormData(e.currentTarget);
             const file =  formData.get("my-file");
             const title = formData.get("title");
-            const desc = fromData.get("description");
+            const desc =  formData.get("description");
             const price = formData.get("price");
             alert(file.name); 
           }}>
