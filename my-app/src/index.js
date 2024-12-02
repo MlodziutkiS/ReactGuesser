@@ -9,6 +9,7 @@ import Kontakt from './components/Pages/Kontakt';
 import Game from './components/Pages/Game';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import AddPhotos from './components/Pages/AddPhotos';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
           <Route path='filmy' element={<Filmy/>}/>
           <Route path='kontakt' element={<Kontakt/>}/>
           <Route path='game' element={<Game/>}/>
+          <Route path='addphotos' element={<AddPhotos/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
