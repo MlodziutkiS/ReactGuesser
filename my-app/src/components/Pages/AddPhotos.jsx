@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Dropzone from './dropZone';
 
 function AddPhotos(){
-
-    const [photos, addPhotos]= useState(["photo1", "photo2"]);
-
-    function addInput(){
-        addPhotos()
-    }
-
     return (
-    <div>
-
-    </div>
+        <form onSubmit={(e) => {
+            e.preventDefault(); 
+            
+            // Now get the form data as you regularly would
+            const formData = new FormData(e.currentTarget);
+            const file =  formData.get("my-file");
+            alert(file.name); 
+          }}>
+            <Dropzone name ="my-file" required/>
+            <button type="submit">Submit</button>
+          </form>
     );
 }
 export default AddPhotos;

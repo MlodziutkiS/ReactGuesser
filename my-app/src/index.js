@@ -7,9 +7,9 @@ import Muza from './components/Pages/Muza';
 import Filmy from './components/Pages/Filmy';
 import Kontakt from './components/Pages/Kontakt';
 import Game from './components/Pages/Game';
+import AddPhotos from './components/Pages/AddPhotos';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import AddPhotos from './components/Pages/AddPhotos';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
