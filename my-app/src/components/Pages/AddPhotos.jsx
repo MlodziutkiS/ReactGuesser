@@ -7,40 +7,44 @@ function AddPhotos(){
   const [useData, setUserData] = useState({username:"", password:""})
   const [token, setToken]= useState();
 
-  function handleSubmit(e){
-      e.preventDefault();   
-      let newToken
-     
-      axios.post('/api/login', {
-        username: useData.username,
-        password: useData.password
-      })
-      .then(function (response) {
-        newToken= response.data.token;
-        setToken(newToken);
-                // Now get the form data as you regularly would
-      })
+  async function getToken(username, password) {
+    axios.post('/api/login', {
+      username: username,
+      password: password
+    })
+    .then(function (response) {
+      let newToken= response.data.token;
+      setToken(newToken);
+              // Now get the form data as you regularly would
+    })
 
+  }
+
+  function handleSubmit(e){
+      e.preventDefault();     
       const formData = new FormData(e.currentTarget);
-      const file =  formData.get("my-file");
+      const file =  formData.getAll("my-file");
       const title = formData.get("title");
       const desc =  formData.get("description");
       const price = formData.get("price");
-      console.log(newToken, "is new token")
+      console.log(token, "is new token");
 
-      axios.post('api/upload', {desc, title, price, file}, {headers:{Authorization: {token: newToken}, "Content-Type":"multipart/form-data"}})
+      axios.post('api/upload', {desc, title, price, file}, {headers:{'Authorization': token, "Content-Type":"multipart/form-data"}})
       .then(function (response) {console.log(response)})
-      .catch(function (error) {
-        console.log(error);
+      .catch((error)=>{
+        if(error.status===401){
+          getToken(useData.username, useData.password);
+        }
       })
     }
 
 
-    useEffect(()=>{ let username = window.prompt("Please enter your name")
-      let password = window.prompt("Please enter your password")
-      setUserData({username,password})},[])
-
-
+    useEffect(()=>{
+      let username = window.prompt("Please enter your name");
+      let password = window.prompt("Please enter your password");
+      setUserData({username,password});
+      if(!token){getToken(username, password);}
+    },[])
 
     return (
         <form onSubmit={handleSubmit}>

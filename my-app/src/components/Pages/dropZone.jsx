@@ -57,6 +57,10 @@ function Dropzone(props) {
       }
     },
     noClick: true,
+    uploadMultiple: true,
+    accept: {
+      'image/*': ['.png','.jpg', '.jpeg', '.webp'],
+    }
   });
 
   const files = acceptedFiles.map(file => (
@@ -80,10 +84,8 @@ function Dropzone(props) {
   return (
     <div className="container">
       <div {...getRootProps({style})}>
-        {/*
-          Add a hidden file input 
-          Best to use opacity 0, so that the required validation message will appear on form submission
-        */}
+        {//<input type='file'></input>
+        }
         <input type ="file" name={name} required={required} style ={{opacity: 0}} ref={hiddenInputRef}/>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here</p>

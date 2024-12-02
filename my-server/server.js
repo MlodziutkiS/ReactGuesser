@@ -247,14 +247,15 @@ function createNextAutoDirectory(basePath) {
 app.post("/api/upload",(req,res)=>{
 
     const token= req.headers['authorization'];
-    console.log(req);
-    if(!token) return res.status(401).json({message:"error 401: Unauthorized no header"});
+    //console.log(req);
+    if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
 
     jwt.verify(token, SECRET_KEY, (err, decoded)=>{
-        if(err) return res.status(401).json({message:'error 401: Unauthorized token invalid'});
+        if(err) return res.status(401).json({message:'error 401: Unauthorized'});
         
         res.json({message:'Access granted'});
         
+        //console.table(req.files)
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).send('No files were uploaded.');
           }
@@ -266,21 +267,21 @@ app.post("/api/upload",(req,res)=>{
             const basePath=path.resolve(__dirname,"../my-app/public/gruzy");
             const newUploadPath=createNextAutoDirectory(basePath);
 
-            const lastCarsIndex=cars.length;
+            const lastCarsIndex=cars.length
             let newPhotos=[];
             let newDesc=String(req.body.desc);
             let newTitle=String(req.body.title);
             let newPrice=Number(req.body.price);
 
             //console.log(basePath,"is base path", newUploadPath,"is new folder path");
+            console.log(Object.entries(Object.entries(req.files.file)), "entries")
+            Object.entries(req.files.file).forEach((file)=>{
 
-            Object.entries(allFiles).forEach(([input, upload])=>{
+                console.log("new file:",file,"uploaded by:", decoded, "of type:");
 
-                console.log("new file:",upload.name,"uploaded by:", decoded, "from input:",input);
+                const filePath=path.join(newUploadPath, String(file.name));
 
-                const filePath=path.join(newUploadPath, upload.name);
-
-                upload.mv(filePath,(err)=>{
+                this.mv(filePath,(err)=>{
                     if(err!==undefined){console.log("error 500:",err);}
                 })
                 newPhotos.push(filePath.slice(filePath.indexOf("gruzy")))
