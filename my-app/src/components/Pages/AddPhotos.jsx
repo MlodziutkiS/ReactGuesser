@@ -26,8 +26,9 @@ function AddPhotos(){
       const title = formData.get("title");
       const desc =  formData.get("description");
       const price = formData.get("price");
+      console.log(newToken, "is new token")
 
-      axios.post('api/upload', {desc, title, price, file}, {headers:{Authorization: newToken, "Content-Type":"multipart/form-data"}})
+      axios.post('api/upload', {desc, title, price, file}, {headers:{Authorization: {token: newToken}, "Content-Type":"multipart/form-data"}})
       .then(function (response) {console.log(response)})
       .catch(function (error) {
         console.log(error);
