@@ -247,10 +247,11 @@ function createNextAutoDirectory(basePath) {
 app.post("/api/upload",(req,res)=>{
 
     const token= req.headers['authorization'];
-    if(!token) return res.status(401).json({message:"error 401: Unauthorized"});
+    console.log(req);
+    if(!token) return res.status(401).json({message:"error 401: Unauthorized no header"});
 
     jwt.verify(token, SECRET_KEY, (err, decoded)=>{
-        if(err) return res.status(401).json({message:'error 401: Unauthorized'});
+        if(err) return res.status(401).json({message:'error 401: Unauthorized token invalid'});
         
         res.json({message:'Access granted'});
         
