@@ -7,7 +7,7 @@ function AddPhotos(){
 
   const [useData, setUserData] = useState({username:"", password:""})
   const [token, setToken]= useState();
-  const [preview, setPreview] = useState({title:'', description:'', price:''});
+  const [preview, setPreview] = useState({title:'Title', description:'Description', price:'10'});
 
   async function getToken(username, password) {
     axios.post('/api/login', {
@@ -23,9 +23,11 @@ function AddPhotos(){
   }
 
   function handleInputChange(e){
-    console.log(e.target.value);
-    preview[e.target.name]= e.target.value;
-    console.log(preview);
+    //preview[e.target.name]= e.target.value
+    setPreview((prev)=>({
+      ...prev,
+      [e.target.name] : e.target.value,
+    }));
   }
 
   function handleSubmit(e){
@@ -57,8 +59,8 @@ function AddPhotos(){
     return (
         <form onSubmit={handleSubmit} style={{width:'100%'}}>
             <Dropzone name ="my-file" required/>
-            <div>
-              <aside style={{display:'flex', flexDirection:'column', width:'30em', margin:'auto'}}>
+            <div style={{display:'flex', flexDirection:'row'}}>
+              <aside style={{display:'flex', flexDirection:'column', width:'30%', margin:'auto'}}>
                   <label>Title</label>
                 <input type='text' name='title' maxLength={50} onChange={handleInputChange}></input>
                   <label>Description</label>
@@ -68,7 +70,7 @@ function AddPhotos(){
                 <button type="submit">Submit</button>
               </aside>
               <aside>
-                <PrevDummy data={preview}/>
+                <PrevDummy data={preview}></PrevDummy>
               </aside>
             </div>
           </form>
