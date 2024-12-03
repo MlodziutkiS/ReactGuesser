@@ -10,12 +10,12 @@ const baseStyle = {
   padding: '20px',
   borderWidth: 2,
   borderRadius: 2,
-  borderColor: '#eeeeee',
+  borderColor: '#AAA',
   borderStyle: 'dashed',
   backgroundColor: '#fafafa',
-  color: '#bdbdbd',
+  color: '#333',
   outline: 'none',
-  transition: 'border .24s ease-in-out'
+  transition: 'border .24s ease-in-out',
 };
 
 const focusedStyle = {
@@ -29,6 +29,21 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: '#ff1744'
 };
+
+const img = {
+  display: 'block',
+  width: '20em',
+  height: 'auto',
+};
+
+const flex ={
+  display: 'flex',
+  flexWrap:'wrap'
+};
+
+const PhotoContainer ={
+  padding: '1em',
+}
 
 
 function Dropzone(props) {
@@ -64,9 +79,10 @@ function Dropzone(props) {
   });
 
   const files = acceptedFiles.map(file => (
-    <li key={file.path}>
+    <div key={file.path} style={PhotoContainer}>
+      <img src={URL.createObjectURL(file)} style={img}></img>
       {file.path} - {file.size} bytes
-    </li>
+    </div>
   ));
 
   const style = useMemo(() => ({
@@ -95,7 +111,7 @@ function Dropzone(props) {
       </div>
       <aside>
         <h4>Files</h4>
-        <ul>{files}</ul>
+        <div style={flex}>{files}</div>
       </aside>
     </div>
   );

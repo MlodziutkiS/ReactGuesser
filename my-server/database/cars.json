@@ -316,23 +316,5 @@
       "gruzy/auto20/image7.jpg",
       "gruzy/auto20/image8.jpg"
     ]
-  },
-  {
-    "id": 20,
-    "title": "d",
-    "desc": "we",
-    "price": 2,
-    "photos": [
-      "gruzy\\auto21\\zdjecie.jpg"
-    ]
-  },
-  {
-    "id": 21,
-    "title": "2",
-    "desc": "3",
-    "price": 3,
-    "photos": [
-      "gruzy\\auto22\\zdjecie.jpg"
-    ]
   }
 ]

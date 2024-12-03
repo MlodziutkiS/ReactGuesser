@@ -274,14 +274,16 @@ app.post("/api/upload",(req,res)=>{
             let newPrice=Number(req.body.price);
 
             //console.log(basePath,"is base path", newUploadPath,"is new folder path");
-            console.log(Object.entries(Object.entries(req.files.file)), "entries")
-            Object.entries(req.files.file).forEach((file)=>{
+            //console.log(Object.entries(req.files.file[""]), "keys")
+            Object.entries(req.files.file[""]).forEach((file)=>{
+                const unData=file[1];
+                const stringName=String(unData.name).replaceAll(" ","");
 
-                console.log("new file:",file,"uploaded by:", decoded, "of type:");
+                console.log("new file:",stringName,"uploaded by:", decoded, "time:",Date.now());
 
-                const filePath=path.join(newUploadPath, String(file.name));
+                const filePath=path.join(newUploadPath, stringName);
 
-                this.mv(filePath,(err)=>{
+                unData.mv(filePath,(err)=>{
                     if(err!==undefined){console.log("error 500:",err);}
                 })
                 newPhotos.push(filePath.slice(filePath.indexOf("gruzy")))

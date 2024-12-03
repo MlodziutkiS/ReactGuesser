@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Dropzone from './dropZone';
+import Dropzone from '../AdminPanel/dropZone';
 import axios from 'axios';
+import PrevDummy from '../AdminPanel/PrevDummy';
 
 function AddPhotos(){
 
   const [useData, setUserData] = useState({username:"", password:""})
   const [token, setToken]= useState();
+  const [preview, setPreview] = useState({title:'', description:'', price:''});
 
   async function getToken(username, password) {
     axios.post('/api/login', {
@@ -18,6 +20,12 @@ function AddPhotos(){
               // Now get the form data as you regularly would
     })
 
+  }
+
+  function handleInputChange(e){
+    console.log(e.target.value);
+    preview[e.target.name]= e.target.value;
+    console.log(preview);
   }
 
   function handleSubmit(e){
@@ -47,12 +55,22 @@ function AddPhotos(){
     },[])
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{width:'100%'}}>
             <Dropzone name ="my-file" required/>
-            <input type='text' name='title'></input>
-            <input type='text' name='description'></input>
-            <input type='number' name='price'></input>
-            <button type="submit">Submit</button>
+            <div>
+              <aside style={{display:'flex', flexDirection:'column', width:'30em', margin:'auto'}}>
+                  <label>Title</label>
+                <input type='text' name='title' maxLength={50} onChange={handleInputChange}></input>
+                  <label>Description</label>
+                <textarea type='text' name='description' rows={20} cols={30} onChange={handleInputChange}></textarea>
+                  <label>Price</label>
+                <input type='number' name='price' onChange={handleInputChange}></input>
+                <button type="submit">Submit</button>
+              </aside>
+              <aside>
+                <PrevDummy data={preview}/>
+              </aside>
+            </div>
           </form>
     );
 }
