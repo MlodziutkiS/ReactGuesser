@@ -18,4 +18,4 @@ npm start
 
 -Made with react and express
 <h1>Future</h1>
--no further development of this project is considered
+-no further development of this project is considered (liar, i just enjoy further developing)
