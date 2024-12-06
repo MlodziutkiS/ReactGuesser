@@ -3,6 +3,7 @@ import Dropzone from '../AdminPanel/dropZone';
 import axios from 'axios';
 import PrevDummy from '../AdminPanel/PrevDummy';
 import Cookies from 'js-cookie';
+import sharp from 'sharp';
 
 function AddPhotos(){
 
@@ -37,13 +38,15 @@ function AddPhotos(){
       e.preventDefault();     
       const formData = new FormData(e.currentTarget);
       const file =  formData.getAll("my-file");
+      //sharp(file[0]).resize()
       const title = formData.get("title");
       const desc =  formData.get("description");
       const price = formData.get("price");
-      console.log(token, "is new token");
+      //console.log(token, "is token");
 
       axios.post('api/upload', {desc, title, price, file}, {headers:{'Authorization': token, "Content-Type":"multipart/form-data"}})
-      .then(function (response) {console.log(response)})
+      .then(function (response) {//console.log(response)
+        })
       .catch((error)=>{
         if(error.status===401){
           getToken(useData.username, useData.password);

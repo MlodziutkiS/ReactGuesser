@@ -1,15 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+my-app/node_modules
+my-app/.pnp
+my-app/.pnp.js
 
 # testing
-/coverage
+my-app/coverage
 
 # production
-/build
+my-app/build
 
 # misc
 .DS_Store
@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 my-server/database/secrets.json
-my-server/node-modules
+my-server/node_modules
