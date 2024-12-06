@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Dropzone from '../AdminPanel/dropZone';
 import axios from 'axios';
 import PrevDummy from '../AdminPanel/PrevDummy';
+import Cookies from 'js-cookie';
 
 function AddPhotos(){
 
@@ -17,7 +18,9 @@ function AddPhotos(){
     .then(function (response) {
       let newToken= response.data.token;
       setToken(newToken);
-              // Now get the form data as you regularly would
+      Cookies.set('token', newToken,{expires:1/24, path:''})
+    }).catch((err)=>{
+      console.log(err);
     })
 
   }
@@ -50,10 +53,21 @@ function AddPhotos(){
 
 
     useEffect(()=>{
-      let username = window.prompt("Please enter your name");
-      let password = window.prompt("Please enter your password");
-      setUserData({username,password});
-      if(!token){getToken(username, password);}
+      try{
+        const tokenCookie = Cookies.get('token');
+        if(tokenCookie===undefined){
+          console.log("no cookie found");
+          throw new Error("token in not in cookies");
+        }else{
+          console.log("found your cookie")
+          setToken(tokenCookie);
+        }
+      }catch{
+        let username = window.prompt("Please enter your name");
+        let password = window.prompt("Please enter your password");
+        setUserData({username,password});
+        getToken(username, password);
+      }
     },[])
 
     return (
