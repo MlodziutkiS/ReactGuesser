@@ -40,8 +40,7 @@ function AddPhotos(){
       const title = formData.get("title");
       const desc =  formData.get("description");
       const price = formData.get("price");
-      //console.log(token, "is token");
-
+      file.push(file[0]);
       axios.post('api/upload', {desc, title, price, file}, {headers:{'Authorization': token, "Content-Type":"multipart/form-data"}})
       .then(function (response) {//console.log(response)
         })

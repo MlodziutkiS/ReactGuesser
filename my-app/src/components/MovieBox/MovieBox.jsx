@@ -12,7 +12,9 @@ function MovieBox(){
     useEffect(()=>{
         axios.get("/api/videos").then(
         data => setVideos(data.data)
-       )
+       ).catch(()=>{
+        console.log("error fetching /api/videos");
+       })
     },[vidId])
     //console.log(videos[vidId+1]);
     function handlePreload(){/*

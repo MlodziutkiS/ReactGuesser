@@ -21,7 +21,9 @@ function CarBrowser(){
         data => setCars(data.data)
        ).finally(
         setDoneFetching(true)
-       )
+       ).catch(()=>{
+        console.log("error fetchin /api/cars?short");
+       })
     },[])
     /*
     useEffect(()=>{
