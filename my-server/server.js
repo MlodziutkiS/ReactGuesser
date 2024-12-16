@@ -65,7 +65,7 @@ app.get("/api/cars/:id", (req,res) =>{
     const carIn = parseInt(req.params.id);
     if(carIn >=0 && carIn<cars.length){
             let output=cars[carIn];
-            output.photos.shift();
+            output.photos.slice(1);
             res.json(output);
     }else{
         res.status(404).json({ error: 'Car not found' , carIn});
